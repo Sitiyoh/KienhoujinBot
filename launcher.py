@@ -1,5 +1,5 @@
 from discord.ext import commands
-import config
+import os
 
 bot = commands.Bot(command_prefix="!")
 
@@ -15,4 +15,4 @@ async def on_message(message):
     if "Bot" in message.content:
         await message.channel.send("はーい、Botでーす")
 
-bot.run(TOKEN)
+bot.run(os.environ['KienhoujinToken'])
