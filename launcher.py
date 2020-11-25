@@ -4,7 +4,7 @@ import os
 import random
 
 bot = commands.Bot(command_prefix="!")
-patterns1 = ["機炎方陣", "破壊"]
+patterns1 = ["機炎方陣", "破壊", "機炎方陣・破壊", "機炎方陣破壊"]
 patterns2 = ["ブラフマントライデント", "シヴァ槍"]
 
 @bot.event
@@ -15,11 +15,12 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user:
         return
-
-    for p in patterns1:
-        if p in message.content:
-            await send_message(message, "機炎方陣・破壊!?")
-            break
+    if patterns1[2] in message.content or patterns1[3] in message.content:
+        await send_message(message, patterns1[2] + "！？")
+    elif patterns1[0] in message.content:
+        await send_message(message, patterns1[1] + "！？")
+    elif patterns1[1] in message.content:
+        await send_message(message, patterns1[0] + "！？")
     else:
         for p in patterns2:
             if p in message.content:
