@@ -2,10 +2,6 @@ from image import Image
 import discord
 import random
 
-patterns = [Reply(["機炎方陣", "破壊"], ["機炎方陣！？", "破壊！？"]),
-            Reply(["機炎方陣・破壊", "機炎方陣破壊"], "機炎方陣・破壊！？"),
-            Reply(["ブラフマントライデント", "シヴァ槍"], Image.Files())]
-
 class Reply:
     __pattern = None
     __reply = None
@@ -14,19 +10,27 @@ class Reply:
         self.__pattern = pattern
         self.__reply = reply
 
-    def predicate(self, message):
+    @classmethod
+    def React(cls, message):
+        for pattern in patterns:
+            if pattern.__predicate(message):
+                return pattern.__reply_message(message)
+
+        return None
+
+    def __predicate(self, text):
         if type(self.__pattern) is str:
-            return __pattern in message.text
+            return __pattern in text
 
         for pattern in self.__pattern:
-            if pattern in message.text:
+            if pattern in text:
                 return True
 
         return False
 
-    def reply_message(self, message):
+    def __reply_message(self, message):
         # 配列以外なら
-        if type(self.__reply) is not "array":
+        if type(self.__reply) is not list:
             return self.__reply
 
         # リストが空なら
@@ -34,4 +38,8 @@ class Reply:
             return ""
 
         # 配列の中から一つを返す
-        return random.choices(self.__reply)
+        return random.choice(self.__reply)
+
+patterns = [Reply(["機炎方陣", "破壊"], ["機炎方陣！？", "破壊！？"]),
+            Reply(["機炎方陣・破壊", "機炎方陣破壊"], "機炎方陣・破壊！？"),
+            Reply(["ブラフマントライデント", "シヴァ槍"], Image())]
