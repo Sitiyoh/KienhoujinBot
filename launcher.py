@@ -16,14 +16,14 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    if message.attachments:
-        for a in message.attachments:
-            filepath = "{0}/{1}".format(TEMP_FILE_PATH, a.filename)
-            await a.save(fp=filepath)
-            if matchPic.JudgeMatching(filepath):
-                # 雑
-                message.content += "破壊"
-            os.remove(filepath)
+    # if message.attachments:
+    #     for a in message.attachments:
+    #         filepath = "{0}/{1}".format(TEMP_FILE_PATH, a.filename)
+    #         await a.save(fp=filepath)
+    #         if matchPic.JudgeMatching(filepath):
+    #             # 雑
+    #             message.content += "破壊"
+    #         os.remove(filepath)
 
     reaction = Reply.React(message.content)
 
